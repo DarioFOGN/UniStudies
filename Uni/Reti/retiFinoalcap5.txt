@@ -1,0 +1,655 @@
+COSE DA SAPERE DI RETI -----
+
+//anche detti standard ovvero si è deciso che è tale e quindi così sarà (come una
+//definizione matematica)
+
+• Protocollo: accordo tra partecipanti su come si deve svolgere una 
+comunicazione
+
+• Protocollo di rete: insieme di regole che specificano il formato (sintassi) e il 
+significato (semantica) dei messaggi scambiati tra entità pari di una rete
+
+ognuno dei protocolli è progettato per offrire un servizio ai richiedenti, risolvendo un 
+problema
+
+• Una famiglia di protocolli è determinata da un insieme di protocolli legati da dipendenze d’uso 
+es. tcp/ip
+
+messaggi in una pila di protocolli:
+
+alla spedizione, ogni strato
+• Accetta un messaggio dal livello superiore
+
+• Aggiunge un'intestazione (header) ed elabora ulteriormente (es. frammentazione) //L’intestazione che viene aggiunta ad ogni passaggio, 
+//contiene le informazioni di controllo del protocollo di quel livello.
+
+•Passa il messaggio risultante al livello inferiore
+
+ovviamente alla ricezione andrà:
+riceverlo dal livello inferiore, con rimozione dell intestazione e passaggio al livello successivo.
+-----------------------------------------------------------------
+
+Modello ISO/OSI
+
+• ISO = Standard internazionale
+
+• OSI = Sistemi aperti di interconessione
+
+• Sistema aperto = con caratteristiche di interoperabilità //L'interoperabilità è, in ambito informatico, la capacità di un sistema o di un prodotto informatico di cooperare 
+e di scambiare informazioni o servizi con altri sistemi
+
+• ISO/OSI: progetto di una famiglia di protocolli
+
+------------------------------------------------------------------
+
+Livello 7: applicazioni
+• come le parti di un’applicazione distribuita comunicano tra loro 
+
+In questo punto avviene l’input e l’output dei dati dove viene stabilita 
+la connessione con i livelli inferiori del modello.
+
+Livello 6: presentazione 
+• come rappresentare i dati da trasferire (es. formati di codifica dei caratteri)
+E’ il livello chiamato di presentazione (Presentation Layer) ed è importante garantire che i dati vengano trasmessi nei formati standard.
+Prendiamo come esempio una mail. Quando viene trasmessa viene definito come dovrà apparire il messaggio, 
+viene aggiunto al pacchetto un presentation header che contiene informazioni su come la 
+nostra mail dovrà essere codificata.
+
+Livello 5: sessione 
+• organizzazione del dialogo e della sincronizzazione tra programmi applicativi (es. autenticazione)
+In questo punto si accede a specifici meccanismi di controllo e di regolazione, 
+per gestire le fasi di una connessione che viene divisa in:
+
+instaurazione
+mantenimento
+disconnessione
+
+
+Livello 4: trasporto
+• Comunicazione end-to-end tra processi
+(Anche in questo punto bisogna aggiungere delle informazioni precise ai dati. 
+Ad esempio al pacchetto che è già stato ampliato in precedenza con l’header dei livelli 
+applicazione, viene aggiunto un transport header.)
+
+Il protocollo del livello di trasporto che deve elaborare le informazioni contenute nel pacchetto è indicato dal valore 
+del campo protocollo dell'intestazione IPv4. (Parleremo ora dell'IPv4 e dettaglieremo i campi 
+delle intestazioni IPv4 e IPv6 in un capitolo successivo).
+
+All'interno dell'unità di dati del livello di trasporto, l'applicazione ricevente 
+è indicata dal numero di porta nell'intestazione del livello di trasporto 
+(anche in questo caso, discuteremo questi campi dell'intestazione in modo completo nei capitoli successivi). 
+Osservando i campi del protocollo e della porta, lo stack TCP/IP di destinazione sa quale applicazione riceve le informazioni. 
+Se due applicazioni cercano di utilizzare la stessa porta nello stesso momento, si verifica una condizione di errore.
+
+
+Livello 3: rete
+• Instradamento in una rete commutata
+(A questo livello avviene l’indirizzamento logico dei dispositivi, viene assegnato un indirizzo IP univoco. 
+Anche a questo livello vengono aggiunte delle informazioni un network header che comprende
+le informazioni sul routing e il relativo controllo del flusso dei dati.)
+
+
+Livello 2: collegamento dati
+• Trasmissione affidabile di pacchetti su collegamenti diretti
+(controllo flusso dati, per evitare errori).
+
+Livello 1: fisico
+• trasmissione di bit lungo un canale di comunicazione
+– Rappresentazione fisica dello 0 e dell’1
+– Tipo e dimensione dei cavi
+– Tipo e dimensione dei connettori
+
+------------------------------------------------------------------
+Nodi intermedi
+
+Dispositivi che si interpongono tra un host ed un altro. 
+nelle internetwork quasi tutti i nodi di rete fisici sono computer host identificati da un indirizzo IP. 
+Non tutti i dispositivi di collegamento dati, però, dispongono di file IP
+
+-------------------------------------------------------------------
+Applicazioni di rete 
+• Fornisce/realizza un servizio per un utente finale
+• composta da più programmi in esecuzione su host diversi
+• Client: processo che inizia la comunicazione
+• Server: processo che aspetta di essere contattato
+
+la comunicazione tra processi è basata sui servizi di rete e trasporto di internet, può essere basata su protocolli di livelli di applicazione.
+	pubblici o privati;
+	servizi via socket API
+può essere basata su invocazione di servizi remoti.
+	RPC; Varianti RPC.
+
+• Applicazione conforme a standard internet
+	-  Esempi: Ftp (per il file transfert), SMTP(email), http(web), IRC(chat)
+	sono tutti protocolli standardizzati che vengono seguiti per lo sviluppo 	di determinate applicazioni ecc.
+
+-----------------------------------------------------------------------
+Modello client-server 
+
+è uno dei modelli più utilizzati a livello di applicazioni di rete, in quanto
+è una delle computazioni più effettutate.
+
+il Server offre un servizio (accesso alle risorse) su richiesta dal client che appunto va a fare richiesta di dati, e sarà proprio il client con la richiesta ad iniziare la comunicazione.
+
+si hanno due tipi di interazioni:
+	- Asimettrica
+	- Simmetrica
+________________________________________________________________________
+
+Particolarità del modello client server //tutto il resto mi sembra piuttosto ovvio.
+
+Il server aspetta in loop che il client invia richieste finchè non arriva ne arriva una.
+
+-------------------------------------------------------------------------
+peer to peer
+
+-interazione simmetrica
+	tutti e due possono comportarsi sia da client che da server.
+Le informazioni sono suddvise tra i nodi della rete piuttosto che essere concentrate in un singolo nodo
+	-decentralizzato (basta pensare a torrent nella quale abbiamo più cosiddetti peer che vanno sia a fare il lavoro da "server" ovvero a ricever dati che ad inviare indietro a nuovi peers le informazioni ottenute.)
+
+ogni peer può stabilire connessioni con altri peers.
+
+viene già utilizzato sia nell ethernet e nell internet routing.
+
+recentemente viene utilizzato per utilizzi come:
+- File Sharing
+- Elaborazione Distribuita
+- Comunicazione
+------------------------------------------------------------------------
+Socket API
+Api --> Application Programming interface (interfaccie) (si interpongo fra un processo ed una e il sistema operativo [stack tcp/ip])
+un processo può sia spedire o ricevere i messaggi ad un altro processo mediante appunto la (propria) socket.
+ed utilizza il modello I/O di UNIX
+• open-read-write-close 
+• file-descriptor = (pathname, flag)
+indipendemente dall architettura che sta al di sotto dell'architettura o dai protocolli di rete sottostanti.
+
+Esistono due tipi principali di socket: i socket orientati alla connessione e i socket senza connessione. I socket orientati alla connessione,
+noti anche come "stream socket", stabiliscono una connessione con un altro computer e quindi inviano dati avanti e indietro attraverso tale connessione.
+I socket senza connessione, noti anche come "datagram socket", non stabiliscono una connessione prima di inviare i dati e possono essere utilizzati per inviare
+dati a più destinatari contemporaneamente. 
+
+I socket sono spesso utilizzati nelle applicazioni client-server, dove un programma funge da server e attende le connessioni in arrivo, mentre l'altro programma 
+funge da client e si connette al server. Una volta stabilita la connessione, il client e il server possono inviare dati avanti e indietro attraverso il socket.
+
+I socket sono comunemente utilizzati con i protocolli TCP e UDP, che sono due dei protocolli principali di Internet. Il TCP è un protocollo orientato alla 
+connessione che fornisce una comunicazione affidabile e basata su flussi, mentre l'UDP è un protocollo senza connessione che fornisce la consegna dei 
+datagrammi con il massimo sforzo.
+----------------------------------------------------------------------
+TPC vs UDP
+
+Il TCP (Transmission Control Protocol) e l'UDP (User Datagram Protocol) sono due dei protocolli Internet più utilizzati per trasferire dati da un computer 
+all'altro. Entrambi si basano sul protocollo IP (Internet Protocol), che è il protocollo di rete sottostante che consente la consegna dei pacchetti di dati da un
+host all'altro. Una differenza fondamentale tra TCP e UDP è che TCP è orientato alla connessione, mentre UDP è senza connessione. Ciò significa che quando si 
+inviano dati con TCP, viene stabilita una connessione tra il mittente e il destinatario e i dati vengono trasferiti in modo affidabile e ordinato.
+Al contrario, quando si inviano dati con UDP, non viene stabilita alcuna connessione e i dati vengono inviati come una serie di datagrammi indipendenti, 
+senza alcuna garanzia di consegna o ordine.
+
+Ecco altre differenze tra TCP e UDP:
+
+Affidabilità: Il TCP è un protocollo affidabile, il che significa che garantisce che i dati inviati saranno consegnati al destinatario senza errori. Se si verificano
+errori durante la trasmissione, il TCP ritrasmette i dati finché non vengono consegnati con successo. UDP, invece, è un protocollo inaffidabile, cioè non garantisce
+la consegna dei dati. Se un datagramma UDP viene perso, non esiste un meccanismo per ritrasmetterlo e i dati andranno persi.
+
+Ordine: TCP garantisce che i dati inviati vengano consegnati nell'ordine in cui sono stati inviati. Questo è importante per le applicazioni che richiedono che i
+dati siano consegnati in un ordine specifico, come i trasferimenti di file. UDP, invece, non garantisce l'ordine di consegna, quindi i dati ricevuti potrebbero 
+non essere nello stesso ordine in cui sono stati inviati.
+
+Controllo del flusso: Il TCP utilizza un meccanismo di controllo del flusso per evitare che il mittente sommerga il destinatario di dati. Il mittente invia i dati 
+a una velocità che il destinatario è in grado di gestire e il destinatario invia un feedback al mittente per indicare la quantità di dati che è in grado di ricevere.
+UDP non ha un meccanismo di controllo del flusso, quindi il mittente può inviare dati a una velocità che il ricevitore non è in grado di gestire.
+
+
+Controllo della congestione: Il TCP utilizza un meccanismo di controllo della congestione per evitare il sovraccarico della rete. Se la rete si congestiona, 
+TCP rallenta la velocità di invio dei dati per consentire il passaggio di altro traffico. UDP non dispone di un meccanismo di controllo della congestione, 
+quindi può contribuire alla congestione della rete se invia dati a una velocità elevata. In generale, TCP è una buona scelta per le applicazioni che richiedono
+una consegna affidabile e ordinata dei dati, come i trasferimenti di file, la navigazione web e la posta elettronica. UDP è una buona scelta per le applicazioni
+che non richiedono una consegna affidabile dei dati o che possono tollerare una certa perdita di dati, come lo streaming audio e video in tempo reale, 
+i giochi online e il Voice over IP (VoIP).
+--------------------------------------------------------------------------------------------------
+con un sistema operativo multitasking può ospitare più di un server, i server sono processi indipendenti e possono gestire le richieste simultaneamente.
+-------------------------------------------------------------------------------------------------------------
+Indrizzamento dei processi
+
+Ogni processo comunicante è associato a un numero di porta a 16-bit, locale e unico rispetto all’host 
+Necessita’ di individuare un processo con un indirizzo di rete globalmente unico (IP address e port number)
+Tutti messaggi contengono due coppie di indirizzi: 
+ 
+Mittente: (IP address, port number)
+Destinatario: (IP address, port number)
+ Il sistema operativo dell’host destinatario consegna al processo un messaggio in arrivo sulla base del port number 
+
+Numeri di porta
+• 1 - 255: riservati a servizi 
+standard
+ 	• 21: ftp
+ 	• 23: telnet
+ 	• 25: SMTP
+ 	• 80:http daemon
+ 	• 1 - 1023: disponibili solo a utenti privilegiati
+• 1024 - 4999: per processi automaticamente assegnati
+• 5000 - : solo per processi utente
+
+punti da considerare:
+• a ogni servizio offerto da un server è assegnato un identificatore 
+unico per l’host: numero di porta
+• Il server si registra con il software del protocollo di trasporto 
+usando il numero di porta (bind)
+• Il client contatta il server usando identificatore dell’host (indirizzo 
+IP) + l’identificatore del servizio (numero di porta)
+• Gli identificatori del server devono essere noti a priori
+• Anche il client è identificabile tramite indirizzo IP + numero di porta
+• Il client comunica al server il proprio indirizzo completo al 
+momento della richiesta
+• Un numero di porta non può essere associato a più processi 
+(server o client) contemporaneamente
+• Un processo (server o client) può usare più numeri di porta 
+contemporaneamente
+• Ogni thread di un server concorrente usa numeri di porta distinti 
+
+--------------------------------------------------------------------------------------------------
+HANDSHAKE
+
+L'handshake è un processo di comunicazione utilizzato per stabilire una connessione tra due dispositivi o sistemi. Di solito, 
+l'handshake viene utilizzato per stabilire una connessione sicura tra due dispositivi che desiderano scambiarsi informazioni.
+Ci sono diverse varianti di handshake, ma in generale il processo prevede i seguenti passaggi:
+
+Il primo dispositivo invia una richiesta di connessione al secondo dispositivo.
+
+Il secondo dispositivo riceve la richiesta e invia una risposta di accettazione al primo dispositivo.
+
+Il primo dispositivo riceve la risposta di accettazione e invia al secondo dispositivo un messaggio di conferma.
+
+Il secondo dispositivo riceve il messaggio di conferma e invia al primo dispositivo un messaggio di conferma finale.
+
+A questo punto, la connessione è stabilita e i due dispositivi possono cominciare a scambiarsi informazioni. In alcuni casi,
+l'handshake può includere ulteriori passaggi di autenticazione o di cifratura per garantire la sicurezza della connessione.
+
+------------------------------------------------------------------------------------------------------
+Problema:
+	- richieste per un cliente può richiedere vario tempo -> altri client devono aspettare il completamento di essa prima di effettura 
+	la propria richiesta
+Soluzione: CONCORRENZA NEI SERVER
+	 Server concorrente che permette di gestire contemporaneamente le richieste di client multipli indirizzate a una socket
+	 di benvenuto
+
+	 Il server crea dinamicamente un nuovo thread (copia del processo) per ogni richiesta accettata e gli assegna una 
+	socket di connessione
+
+	 Il thread concorrente (con il suo flusso di controllo autonomo operante su memoria condivisa) soddisfa la richiesta del client 
+	attraverso la socket di connessione
+
+ 	Il server si rende subito disponibile e attende le successive richieste dirette 
+	sempre alla socket di benvenuto
+
+-> di seguito si crea un nuovo "Problema":
+	come fa un client a far arrivare i messaggi al thread assegnato.
+basta utilizzare un identificazione della sessione di trasp., inoltre il protocollo di trasporto associa ogni thread ad una quadrupla distinta
+(ind. IP server, n.ro di porta server, ind. IP client , n.ro di porta client)
+
+---------------------------------------------------------------------------------
+WEB 
+	-l'obbiettivo principale è quello di nascondere la complessità di una architettura
+	stratificata
+
+Caratteristiche Principali
+	• Idea
+		– un mondo di informazioni senza confini in cui tutti gli elementi hanno un riferimento per poter essere ritrovati
+	• Sistema di indirizzamento:URI
+		– per rendere questo mondo possibile nonostante molti protocolli 
+		diversi
+	• Un protocollo richiesta-risposta: HTTP
+		– per trasferire informazioni con l’efficienza necessaria al contesto ipermediale 
+	• Un linguaggio di annotazione: HTML
+		– che tutti i client capiscono, per presentare le informazioni e inserire gli iper-puntatori (hyperlinks)
+	• Un corpo di dati disponibile su Internet
+		– chiunque può rendere pubblici i dati mettendoli su un server
+
+-------------------------------------------------------------------------------
+URI (Uniform Resource Identifier)
+Un URI (Uniform Resource Identifier) è una stringa di testo che identifica in modo univoco una risorsa su Internet. Ci sono due tipi principali di URI: gli URL (Uniform Resource Locator)
+e gli URN (Uniform Resource Name).
+
+Gli URL sono utilizzati per identificare le risorse su Internet che possono essere recuperate tramite il protocollo di trasferimento di hypertesto (HTTP). Ad esempio, "https://www.example.com"
+è un URL che identifica il sito Web di esempio. Gli URL contengono anche informazioni sul protocollo da utilizzare per recuperare la risorsa (in questo caso HTTP sicuro) e sulla posizione 
+della risorsa (in questo caso il server "www.example.com").
+
+Gli URN sono utilizzati per identificare le risorse in modo indipendente dalla loro posizione. Ad esempio, "urn:isbn:978-1617291999" è un URN che identifica un libro specifico indipendentemente 
+dal server o dal percorso in cui si trova il file del libro. Gli URN vengono utilizzati principalmente per identificare risorse non connesse a Internet, come documenti stampati o oggetti fisici.
+
+In generale, gli URI sono utilizzati per identificare le risorse in modo univoco e consentire l'accesso alle risorse stesse.
+
+l'URL ha come schema/scheme:["//"] [user [":"password] "@"] host [":"port] ["/"url-path]
+- scheme: protocollo o metodo di accesso usato per accedere alla risorsa richiesta(http, https, ftp ecc.)
+- host: nome dns o indrizzo IP (nome dns "www.google.com", ex. 142.250.184.46)
+- port: numero di porta del processo server a cui è diretta la richiesta.
+- url-path: percorso gerarchico + nome di un file(se method è http il default del filename index.html) + "?" query (pass. parametri) 
+
+esempi:
+	– http://www.di.uniba.it/~reti/calc/index.htm
+	– http://www.di.uniba.it/~reti/
+	– http://seldi2.uniba.it:1025/
+	– ftp://seldi.uniba.it/pub/papers/sew95.ps
+	– file:/lucidi/web.zip
+	– news:it.lavoro.offerte
+	– mailto:lanubile@di.uniba.it
+
+---------------------------------------------------------------------------------
+Architettura client/server
+
+• l'utente seleziona un URL target
+• il browser (web client) spedisce una richiesta HTTP al web server
+• il server elabora la richiesta e spedisce la risposta al browser
+• il browser interpreta i comandi html e mostra la pagina
+• Ogni documento esterno referenziato richiede una richiesta separata.
+
+piccolo appunto:
+	----------------------------------------------------------------------------------
+	RTT (Round Trip Time) è il tempo che impiega un pacchetto di dati per andare dal mittente al destinatario e tornare indietro.
+	Viene utilizzato per misurare la latenza di una connessione di rete.
+	Il RTT viene calcolato come il tempo che impiega un pacchetto di dati a viaggiare dal mittente al destinatario, più il tempo 
+	che impiega il destinatario a rispondere, meno il tempo di trasmissione del pacchetto di risposta.
+
+	three way handshake -> The three-way handshake is a process that is used to establish a connection between two devices over a network.
+	It is a common process used in the Transmission Control Protocol (TCP), which is a protocol that is used to transmit data over the Internet
+	and other networks. The three-way handshake involves the following steps:
+
+	1. The first device sends a message to the second device requesting to establish a connection.
+	2. The second device receives the message and sends a message back to the first device acknowledging the request and agreeing to establish a connection.
+	3. The first device receives the acknowledgement and sends a message back to the second device to confirm that it has received the acknowledgement. 
+	---------------------------------------------------------------------------------------
+1. quindi avvia la three way handshake all inzio della connessione con il server
+     -> ovv. dal socket del client al (socket benvenuto) /server side 
+	(nella rtt, tempo di ricezione ed invio dei pacchetti)
+
+2.	avviene la request della pagina dal client 
+	(scambio dati fra socket di client e socket di server)
+
+3.	reply (dal server) di index.html -> al client
+	ricezione del client della pagina html dal server 
+
+4.  risposta con chiusura di connessione e ack da tutti e due 
+	i lati.
+---------------------------------------------------------------------------------
+Http - HyperText Tranfer Protocol
+
+Protocollo Request-reply -> client richiede, il server risponde ovv.
+
+" "  "   " Stateless -> non ricorda la storia delle richieste e risposte
+
+Protocollo Ascii -> è possibile usare telnet per simulare le richieste browser
+						•  Es. telnet hostname 80
+						(ascii per inviare i comandi telenet verso appunto il server telenet•) 	
+
+				 -> codifica del testo/immagini/html secondo lo standard mantenimento
+
+Basato su TCP 
+	HTTP 1.0
+		• ogni richiesta-risposta utilizza una connessione TCP diversa
+		• Slow start di TCP
+	HTTP 2.0
+		• il server non chiude subito la connessione TCP 	
+		• pipepline delle immagini riferite in un documento html
+			(viene prima scaricata la pagina dal client, che a sua a volta manderà in pipeline tutte le richieste delle risorse
+			che deve andare ad ottenere per visualizzare la pagina correttamente ex. immagini)
+
+In HTTP, una connessione persistente consente di inviare più richieste e risposte HTTP su una singola connessione TCP. Questo può;
+migliorare le prestazioni riducendo l'overhead di stabilire una nuova connessione per ogni richiesta.
+D'altra parte, una connessione non persistente si chiude dopo ogni richiesta e risposta e deve essere stabilita una nuova connessione;
+per ogni nuova richiesta. Questo può essere meno efficiente, in quanto richiede un maggiore overhead per stabilire nuove connessioni.
+Per impostazione predefinita, la maggior parte dei client e dei server HTTP utilizzano connessioni persistenti, 
+ma possono anche essere configurati per utilizzare connessioni non persistenti, se lo si desidera.
+
+la richiesta http si compone di:
+
+	• Request Header line -> ex. GET /somedir/page.html HTTP/1.1
+		prima il metodo che sarebbe la azione da intraprendere, l'indirizzo della risorsa, e la versione http.
+
+	• Request Header field -> From: email address, User-Agent: quale browser, Accept: lista di tipi/sottotipi, if-modified-since: Restituisci il documento se più recente. connection: bla bla..
+		Host: www.someschool.edu
+		Connection: close
+		User-agent: Mozilla/5.0
+		Accept-language: fr
+	
+	• CRLFCRLF
+		sta per "carriage return" (ritorno a capo) e LF sta per "line feed" (avanzamento riga). In una richiesta HTTP, la sequenza CRLFCRLF indica la fine della richiesta. In altre parole, tutto ciò che viene
+		prima della sequenza CRLFCRLF è parte della richiesta, mentre tutto ciò che viene dopo è considerato una risposta dal server.
+
+	• Entity Body
+		L'entity body è una parte opzionale della richiesta HTTP che viene utilizzata per inviare al server informazioni non specificate in anticipo. Ad esempio, quando si invia un modulo HTML
+		utilizzando il metodo POST, i dati del modulo vengono inseriti nell'entity body della richiesta HTTP. L'entity body può essere utilizzato anche per inviare dati di altro tipo, come immagini o file audio.
+
+	elenco di metodi http:
+		GET: richiede di ottenere la rappresentazione di una risorsa specifica. Ad esempio, una richiesta GET per "/index.html" potrebbe ottenere il contenuto del file "index.html" dal server.
+
+		HEAD: richiede solo gli header della risposta, senza il corpo entità. Ad esempio, una richiesta HEAD per "/index.html" potrebbe ottenere solo gli header del file "index.html" dal server, senza il contenuto del file.
+
+		POST: invia una nuova entità alla risorsa specificata, causando una modifica nello stato o nell'effetto collaterale della risorsa. Ad esempio, una richiesta POST potrebbe essere utilizzata per inviare
+		un modulo HTML al server, che quindi può essere elaborato e memorizzato in un database.
+
+		PUT: sostituisce l'intera rappresentazione corrente di una risorsa con l'entità fornita. Ad esempio, una richiesta PUT potrebbe essere utilizzata per aggiornare il contenuto di un file sul server.
+
+		DELETE: elimina la risorsa specificata. Ad esempio, una richiesta DELETE potrebbe essere utilizzata per eliminare un file dal server.
+
+		CONNECT: stabilisce un tunnel verso il server identificato dall'URL di destinazione.
+
+		OPTIONS: descrive le opzioni di comunicazione per la risorsa di destinazione.
+
+		TRACE: esegue un loop di ritorno di una richiesta, utilizzato per diagnosticare o per altri scopi.
+
+		PATCH: applica modifiche parziali a una risorsa.	
+
+la risposta http sarà invece:
+	Response header line:
+		- version http + code (ok 200, 400 bad req. ecc.)
+	" " "  "   "   "  header fields:
+		- server: software usato per i server
+		- date:	data e tempo all'origine del messaggio
+		- Content-type: tipo/sottotipo MIME e codifica usata per il corpo
+		- Content-length: lunghezza in byte del corpo
+		- ... 
+	Entity body:
+		- documento html
+
+	ex. :
+		HTTP/1.1 200 OK
+		Connection: close
+		Date: Thu, 09 Aug 2011 15:44:04: GMT
+		Last-Modified: Thu, 09 Aug 2011 15:11:04: GMT
+		Content-Length: 6821
+		Content-Type: text/html
+		(data)
+
+	codici risposta:
+		1xx -> information
+		2xx -> Success
+		3xx -> Redirection (301 = paage moved, ecc)
+		4xx -> Client error (404 = page not found, ecc)
+		5xx -> Server error 
+
+	tipi mime:
+		text: testo non formattato, html, xml
+		image: gif, Jpeg
+		audio: audio/basic
+		video: video/mpeg: filmato mpeg
+		application: - application/pdf: sequenza di byte in pdf
+		- ...
+
+	ex: get:
+		In HTML form: <FORM METHOD=GET 
+		ACTION="http://www.cc.ukans.edu/cgi-bin/get-query">
+		GET /cgi-bin/get-query?org=Academic%20Computing%20Services
+		&users=10000&browsers=lynx&browsers=cello&browsers=mosaic
+		&others=MacMosaic%2C%20WinMosaic
+		&contact=Michael%20Grobe%20grobe@kuhub.cc.ukans.edu HTTP/1.0
+		Accept: www/source
+		Accept: text/html
+		Accept: video/mpeg
+		Accept: image/jpeg
+		Accept: image/x-tiff
+		Accept: image/x-rgb
+		Accept: image/x-xbm
+		Accept: image/gif
+		Accept: application/postscript
+		User-Agent: Lynx/2.2 libwww/2.14
+		From: grobe@www.cc.ukans.edu
+		* a blank line *
+
+	ex: post:
+		POST /cgi-bin/post-query 
+		HTTP/1.0
+		Accept: www/source
+		Accept: text/html
+		Accept: video/mpeg
+		Accept: image/jpeg
+		Accept: image/x-tiff
+		Accept: image/x-rgb
+		Accept: image/x-xbm
+		Accept: image/gif
+		Accept: application/postscript
+		User-Agent: Lynx/2.2 
+		libwww/2.14
+		From: grobe@www.cc.ukans.edu
+		Content-type: application/x-wwwform-urlencoded
+		Content-length: 150
+		* a blank line *
+		org=Academic%20Computing%20Services
+		&users=10000
+		&browsers=lynx
+		&browsers=cello
+		&browsers=mosaic
+		&others=MacMosaic%2C%20WinMosaic
+		&contact=Michael%20Grobe%20grobe@kuh
+		ub.cc.ukans.edu
+----------------------------------------------------------------------------------
+Architettura del browser
+	http/tcp -> html interpreter -> Request processor <-> Display manager <-> "quello che vedi"
+	^		<-> java vm -> 					|			    <->	cache manager				
+	|										|			^
+	|										|			|	
+	---	---	---	---	---	---	---	--- --- --- -			plugins
+----------------------------------------------------------------------------------
+Listener: il listener è un demone di rete che ascolta le richieste HTTP in arrivo su una porta specifica (ad esempio la porta 80 per HTTP, la porta 443 per HTTPS). Quando viene ricevuta una richiesta, 
+il listener la passa al gestore di richieste.
+
+Gestore di richieste: il gestore di richieste è responsabile per il parsing della richiesta in arrivo e per determinare l'azione appropriata da intraprendere. Ciò può includere il ricercare 
+la risorsa richiesta in un file system o database, l'esecuzione di uno script lato server, o il restituire un errore se la risorsa non viene trovata. Il gestore di richieste quindi genera una risposta HTTP, 
+che include la risorsa richiesta o un messaggio di errore, e la invia al client.
+
+Motore di scripting lato server: alcuni server web supportano linguaggi di scripting lato server, come PHP o Python, che permettono agli sviluppatori di generare contenuti dinamici per il server da inviare ai client. 
+Quando viene ricevuta una richiesta per uno script lato server, il gestore di richieste passa la richiesta al motore di scripting, che esegue lo script e genera la risposta.
+
+Componente del database: molti server web includono un componente del database, come MySQL, che memorizza e recupera i dati per il server. Gli script lato server possono interrogare il database per recuperare o 
+aggiornare i dati in risposta alle richieste dei client.
+
+Componente di sicurezza: il componente di sicurezza aiuta a proteggere il server web da attacchi maligni, come l'iniezione SQL o lo scripting cross-site (XSS). Può includere funzionalità come la validazione 
+dell'input, l'autenticazione e l'autorizzazione per prevenire l'accesso non autorizzato alle risorse.
+
+Componente di logging: il componente di logging registra le attività sul server, come le richieste dei client e le risposte del server, per scopi diagnostici e di debug. Ciò può essere utile per individuare 
+problemi e identificare i problemi di prestazioni.
+
+Oltre a questi componenti principali, un server web può anche includere funzionalità aggiuntive come il bilanciamento del carico per distribuire le richieste dei client su più server, la cache per migliorare 
+le prestazioni memorizzando le risorse frequentemente utilizzate in modo locale, e il supporto per protocolli aggiuntivi come HTTPS e FTP.
+
+----------------------------------------------------------------------------------------
+Proxy server
+
+Proxy = entità locale che svolge azioni per conto di un un’entità 
+remota 
+Funzioni base
+	• Richieste da client con indirizzi IP privati
+	• Controllo e filtro delle richieste in uscita
+	• Caching centralizzata
+
+basicaly it interpones between ur browser and a web server
+the proxy server has its own access list, and cache manager
+
+dove 10.0.0.1: browser, 10.0.0.2:(interno)Proxy 193.204.187.5 Proxy (in uscita)
+1. HTTP Request
+	IP src = 10.0.0.1
+	IP dest = IP(web server) -> 10.0.0.2
+2. HTTP Request
+	IP src = 193.204.187.5
+	IP dest = IP(web server)
+3. HTTP Reply
+	IP src = IP(web server)
+	IP dest = 193.204.187.5
+4. HTTP Reply
+	IP src = IP(web server) <- 10.0.0.2
+	IP dest = 10.0.0.1
+
+------------------------------------------------------------------------------------------
+Get condizionale
+
+Problema: la copia di un oggetto memorizzata sul proxy potrebbe essere scaduta
+Soluzione: Get condizionale
+
+metodo di richiesta per recuperare una risorsa solo se è stata modificata
+//indi per cui utile per risolvere questo problema, in quanto la risorsa verrà riscaricata solo se scaduta
+
+Il proxy invia al web server il messaggio per conto del browser 
+richiedente
+				GET /fruit/kiwi.gif HTTP/1.1
+				Host: www.exotiquecuisine.com
+verrà salvato nella cache locale
+
+essenzialmente a questo se ci sarà anche un "if-modified-since: "data" "": che rappresenta proprio il get condizionale.
+se vero, inoltrerà l'oggetto al client che lo richiede.
+-------------------------------------------------------------------------------------------
+Gestione della sessione
+• HTTP è un protocollo Stateless
+	- il server non conosce la storia delle richieste/risposte precedenti
+• Sessione
+	- dialogo fra client server
+	- gestione della sessione un requisito indispensabile per l'uso web come infrastruttura.
+		• autenticazione dell'utente
+		• acquisti
+		• segnalibro
+	- La gestione della sessione richiede che le informazioni di stato siano condivise tra client
+	e server
+• come mantenere lo stato di una sessione (cookies):
+	- html link con url parametrizzata
+	- html form contenente campi "nascosti"
+	- cookies
+----------------------------------------------------------------------------------------------
+Cookies 
+obbiettivo rendere http stateful invece di stateless, problema che ricorrebbe se bisognerebbe salvare 
+per l'appunto lo stato delle pagine appena state lasciate per poi ritornarci.
+
+è formato da una coppia attributo-valore
+	- memorizzato client side in un file di testo
+		• da non usare per pass e info critiche 
+	- un cookie per host o gruppi host
+
+Scambio informazioni di stato iniziato dal server
+	- server spedisce un http reply con set cookie
+		• attributi predefiniti: Max-Age, Version, Discard,...
+	- il client può rifiutare il cookie o spedire un http request con cookie
+		• Coppie di attributi-valori ricevuti in precedenza da quel server
+-------------------------------------------------------------------------------------------------
+Obbiettivo
+
+• Gestione session
+• Personalizzazione
+• Tracciamento
+
+una volta che è stato creato il cookie nella handshake, la prossima volta che il client si connette sullo
+stesso sito/server invierà il messaggio ovviamente di request + cookies.
+
+the set-cookie http response header sends cookies from the server to the user agent.
+Set-Cookie: <cookie-name>=<cookie-value>
+
+-------------------------------------------------------------------------------------------------
+Creating cookies
+un server può mandarlo uno o più di set-cookie header con la risposta.
+il browser usualmente magazzina il cookie and lo rimanda con richieste fatte dallo stesso sever dentro
+un cookie http header. puoi anche settare la data di expire del cookie.
+
+i session cookie vengono eliminati quando finisce la sessione corrente.
+ma essenzialmente dipende dal browser quando la sessione corrente finisce, e qualche browser usano la session restoring
+quando si riavviano. causando i session cookies a durare in modo definitivo.
+
+first party -> gestiti dai domini del sito a cui si accede.
+third party -> gestiti da altri domini.
+

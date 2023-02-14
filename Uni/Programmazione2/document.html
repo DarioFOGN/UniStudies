@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OO</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h3 id="introduzione">Introduzione</h3>
+Sicuramente i più grandi difetti della programmazione imperativa,
+sono:<br>
+<ul>
+<li>
+<b>Variabili Globali</b> che sono accessibili da ogni parte del codice.
+</li>
+<li>
+l’ingestibilità dei grossi programmi, che incominciano ad essere molto
+difficili da mantenere
+</li>
+</ul>
+l’idea era di introdurre l’information hiding come rimedio:<br>
+<ul>
+<li>
+in un modulo ogni variabile globale
+</li>
+<li>
+insieme a un gruppo di operazioni autorizzate ad accedervi
+</li>
+<li>
+accesso indiretto da parte degli altri moduli
+</li>
+</ul>
+anche nella programmazione imperativa è possibile definire degli
+oggetti, tuttavia
+<ul>
+<li>
+<b>utilizzo non forzato</b>: legato all’auto disciplina dei
+programmatori (in oo è obbligatorio l’implementazione di oggetti)
+</li>
+<li>
+gli oggetti non sono cittadini di <b>prima classe</b>
+</li>
+</ul>
+<p>oggetti diventano quindi -&gt; cittadini di prima classe.<br> inoltre
+gli oggetti hanno un ruolo fondamentale nella progettazione e
+programmazione.<br></p>
+<p>Classificazione di wagner: object based -&gt; ha solo gli oggetti,
+class-based -&gt; ogg. + classi, object oriented -&gt; tutti i
+construtti della prog. a ogg.</p>
+<p>gli oggetti sono composti (incapsulano) uno stato -&gt; identificato
+dal contenuto di memoria ed il comportamento -&gt; che è una collezione
+di procedure e funzioni dell’area di memoria associata all’oggetto.<br>
+a livello di progetto, gli oggetti modellano le entità presenti nel
+dominio dell’applicazione.<br></p>
+<p>gli oggetti hanno una propria identità: un identificatore di oggetto
+univoco (OID).<br> gli OID sono anche detti riferimenti. esso è
+immutabile, ovvero non può essere modificato da qualche opzione di
+programmazione, quindi cambiarlo porterebbe alla cancellazione di esso,
+inoltre sono assegnati in maniera automatica e corrisponde all’area di
+memoria che occuperanno.<br><br> sono legate a delle variabili: quindi
+l’oid verrà assegnata ad una variabile e si farà l’accesso all’oggetto
+mediante esso. un oggetto può puntare ad un altro.<br></p>
+<h3 id="uml">UML</h3>
+<p>un linguaggio visuale per definire, progettare, realizzare,
+documentare sistemi software orientati agli oggetti. è universale,
+quindi non ha diversi tipi di modi di rappresentare le cose in versioni
+differenti. UML è di supporto per la progettazione di sistema,
+documentazione di uno già esistente.<br><br></p>
+<p>Ricapitolando:<br> <strong>l’oggetto</strong> si riassiume in
+identità -&gt; oid, stato -&gt; l’area di memoria del contenuto,
+comportamento -&gt; l’ara di memoria assiociata alla collezione di
+procedure e funzioni, come detto in precedenza.<br>
+<strong>Classe</strong> -&gt; descrizione di un insieme di
+oggetti.<br><br></p>
+<h4 id="obbiettivi">Obbiettivi</h4>
+<ul>
+<li>
+Fornire all’utente un linguaggio di specifica espressivo, visuale e di
+rapido utilizzo
+</li>
+<li>
+Offrire meccanismi di estendibilità e di specializzazione del linguaggio
+</li>
+<li>
+Essere indipendente dai linguaggi di programmazione
+</li>
+</ul>
+<ul>
+<li>
+Produrre un SW migliore, permette di:
+</li>
+<ul>
+<li>
+astrarre e semplificare i progetti più complessi
+</li>
+<li>
+visualizzare un sistema (com’è o come lo si vorrebbe)
+</li>
+<li>
+specificare la struttura e il comportamento del sistema
+</li>
+<li>
+definire le linee guida per la costruzione di un sistema
+</li>
+<li>
+documentare le decisioni prese
+</li>
+</ul>
+</ul>
+<h4 id="oggetti-in-uml">Oggetti in UML</h4>
+<p>si intende con oggetto un instanza &lt;- di classe.<br><br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLoggetti.png"></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLoggetti2.png"><br></p>
+<h4 id="le-classi">Le Classi</h4>
+<p>Una classe è la descrizione di una famiglia di oggetti che
+condividono la stessa struttura (gli attributi) e il medesimo
+comportamento (operazioni).</p>
+<p>Nella programmazione OO ogni oggetto può essere ottenuto solo se si
+definisce la sua classe di appartenenza:<br>     • un oggetto è
+un’istanza di una classe</p>
+<p>Nella modellazione OO le istanze esistono in quanto ci sono le loro
+astrazioni<br>     una classe è una realizzazione di un dato
+astratto<br>      -&gt; i dettagli della realizzazione sono normalmente
+nascosti.<br></p>
+Nelle classi si hanno due tipi di componenti:<br>
+<ul>
+<li>
+<b>Componente statica:</b> ovvero i campi o gli attributi dotati di un
+nome che contengono un valore. caratterizzano lo stato degli oggetti
+durante l’esecuzione.<br> <b>Attributi di istanza:</b> associati ad un
+istanza -&gt; tempo di vita pari a quello dell istanza, quindi
+caratterizzano lo stato di ogni singolo oggetto.<br> <b>Attributi di
+classe:</b> il tempo di vita è lo stesso della classe, e vengono
+condivisi fra tutte le istanze, essenzialmente è la parte comune di
+stato fra tutti gli oggetti
+</li>
+<li>
+Componente dinamica: <b>metodi</b> o <b>operazioni</b> che rappresentano
+il <b>comportamento comune</b> degli oggetti appartenenti alla classe;
+ovvero i servizi che si possono richiedere a un oggetto di una classe e
+manipolano gli attributi.<br><br> <b>Metodi costruttori:</b> creano gli
+oggetti e li inizializzano<br> <b>Metodi di accesso:</b> restituiscono
+strazioni significative dello stato di un oggetto (restituisce un campo
+di un oggetto).<br> <b>Metodi di trasformazione:</b> modificano lo stato
+di un oggetto (il campo)<br><b>Metodi distruttori:</b> che rimuovono
+oggetti dalla memoria
+</li>
+</ul>
+<p>Per i metodi di accesso e trasf.:<br> Metodi di istanza -&gt; operano
+su almeno un attributo di instanza.<br> Metodi di classe -&gt; operano
+solo su attributi di classe.<br><br></p>
+<h4 id="classi-in-uml">Classi in UML</h4>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLclasse.png"><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLclasseatr.png"><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLclasseattrder.png"><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLoperazioni.png"><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLclassefinale.png"></p>
+<p>in aggiunta come si vede nell’utima immagine per indicare le
+informazioni in maniera più accurata di una determinata operazione o
+elemento si possono utilizzare gli stereotipi, ovvero: &lt;&lt; &gt;&gt;
+vanno intesi come della sottospecie di commenti che però vanno a dare
+solo un info aggiuntiva(una specificazione del significato semantico o
+del comportamento); ex &lt;&lt;final&gt;&gt; o &lt;&lt;interface&gt;&gt;
+ecc. <br><br></p>
+Un elemento (attributo o metodo) ha visibilità:<br>
+<ul>
+<li>
+<b>Pubblica:</b> se può essere visto (utilizzato, invocato) da altre
+classi – <b>in uml +</b>
+</li>
+<li>
+<b>Privata: </b> se può essere visto solo dalla classe di appartenenza
+–<b> in uml -</b>
+</li>
+<li>
+<b>Protetta:</b>l’elemento è visibile all’interno del package e
+all’esterno solo ai discendenti della classe di appartenenza –<b> in uml
+#</b>
+</li>
+<li>
+<b>Package:</b>l’elemento è visibile solo agli elementi del package che
+contiene la classe in cui l’elemento è definito – <b> in uml ~</b>
+</li>
+</ul>
+<p>La prima è solo una istanza di classe e viene chiamata singleton;<br>
+La seconda è molteplici istanze ovvero in questo caso 3 stanze;<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\Moltclass.png"><br></p>
+<p>come si crea una singleton?<br> nessun metodo invocherà il
+costruttore;<br> rendendo privati appunto i costruttori;<br> creando un
+metodo di classe che restituisce l’unica instanza memorizzata della
+classe.<br> dotando la classe di un attributo statico che è
+inizializzato all’unico oggetto di quella classe<br><br></p>
+<p>molt. di attributo:<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\Moltattr.png"></p>
+In UML possiamo definire le proprietà degli attributi che vanno
+dichiarati dopo il tipo fra le {}, ci sono tre tipi di proprietà
+definite:<br>
+<ul>
+<li>
+<b>Changeable:</b> non vi sono restrizioni sulla modificabilità
+dell’attributo
+</li>
+<li>
+<b>AddOnly:</b> i valori possono essere aggiunti, ma una volta creati,
+non possono più essere rimossi o modificati
+</li>
+<li>
+<b>Frozen:</b> il valore dell’attributo non può essere modificato dopo
+che l’oggetto è stato inizializzato
+</li>
+</ul>
+<p>di default abbiamo la changeable<br><br></p>
+<h4 id="distinzione-operazione-vs-metodo-uml">Distinzione Operazione vs
+Metodo UML</h4>
+<p>in <strong>UML</strong> la differenza fra operazione e metodo è la
+seguente:<br> <strong>L’Operazione</strong> semplicemente va ad essere
+il servizio richiesto da un altra classe o da un oggetto ed è
+semplicemente la dichiarazione, che viene descritta nell’interfaccia
+della classe specificando nome, parametri e ritorno dell’operazione.<br>
+Il <strong>Metodo</strong> invece è la implementazione concreta di esso
+(ovvero della operazione), quindi il metodo conterrà il codice che viene
+eseguito quando l’operazione viene richiamata, e descritta all interno
+della classe che la implementa.<br><br></p>
+<p>avrà la seguente forma:<br> [direzione] nome : tipo [ = valore
+iniziale]<br> in -&gt; parametro input, non può essere modificato;<br>
+out -&gt; parametro output, può essere modificato per comunicare
+un’informazione al chiamante.<br> inout, tutti e due
+combinati.<br><br></p>
+UML fornisce diverse proprietà predefinite:<br>
+<ul>
+<li>
+<b>isQuery:</b> l’esecuzione dell’operazione lascia lo stato del sistema
+immutato, tale operazione è quindi priva di side-effect
+</li>
+<li>
+<b>leaf:</b> operazione non può essere più specializzata (overriding)
+nelle sottoclassi (vedi final in Java)
+</li>
+<li>
+<b>sequential:</b> i chiamanti (callers) di questo oggetto devono
+coordinarsi affinché solo uno alla volta richieda il servizio.(single
+threaded)
+</li>
+<li>
+<b>guarded:</b> simile al caso precedente, tuttavia la sequenzialità del
+servizio è gestita dalla classe proprietaria del servizio stesso (vedi
+synchronized in Java)
+</li>
+<li>
+<b>concurrent:</b> la semantica e l’integrità dell’oggetto è garantita
+anche in caso di chiamate multiple (multithreaded)
+</li>
+</ul>
+<p>le ultime tre proprietà sono rilevanti solo in classe attive, ovvero
+classi che ha come istanze oggetti attive. Con oggetto attivo si intende
+oggetto che ha un thread e può far partire un thread concorrente.<br>
+Viene rappresentata con i bordi raddopiati.<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLoggettiAttivi.png"><br></p>
+<h4 id="classi-template">Classi Template</h4>
+<p>Definisce una famiglia di classi parametrizzate e corriponde ad una
+classe gnerica in java.<br> come le classi generiche quando istanziata
+bisogna specificare il tipo, e non è possibile utilizzare direttamente
+una classe template.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLtemplate.png"><br></p>
+<h5 id="instanziazione-di-template">instanziazione di template</h5>
+ci sono due modi di istanziare i template:<br>
+<ul>
+<li>
+implicitamente, dichiarando una classe il cui nome esplicita i parametri
+(semplicemente dichiarandola in java)
+</li>
+<li>
+Esplicitamente,mediante una dipendenza stereotipata
+&lt;&lt;<code>bind</code>&gt;&gt;(usando magari il costruttore o un
+metodo apposito; senza le ’)
+</li>
+</ul>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\instTempl.png"><br></p>
+<h3 id="buona-modellazione-oo">Buona modellazione OO</h3>
+<p>consiste nello stabilire le responsabilità da attribuire a ciascuna
+classe individuata. <br></p>
+ci sono due modi:<br>
+<ul>
+<li>
+specificandole all’interno della classe:<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\RespClass.png"><br>
+</li>
+<li>
+o utilizzando le note:<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\noteClass.png"><br>
+</li>
+</ul>
+<p>la specifica della responsabilità di una classe serve a definire cosa
+fa una classe (Sematica della classe)<br> in alternativa di può
+utilizzare la specifica assiomatica o la specifica algebrica come
+commenti per la specifica della responsabilità.<br><br></p>
+<h4 id="classi-identificazione">Classi (identificazione)</h4>
+<p>E’ necessario seguire una metodologia ben definita quando andiamo
+appunto a sviluppare il sistema:<br> inanzitutto, dobbiamo
+<strong>identificare gli elementi</strong> che gli utenti usano per
+descrivere il problema. ex. alunno, maestra, scuola.<br> per ogni
+astrazione individuata, dobbiamo:<br> - indentificare un insieme di
+responsabilità<br> - garantendo un buon bilanciamento di responsabilità
+tra le classi<br> Fornendo ad ogni ad ogni classe gli attributi e le
+operazioni per eseguire tali responsabilità.<br><br></p>
+<p>L’individuazione delle classi dipende dunque<br> - dalla realtà che
+si vuole moddelare<br> - dal giusto <strong>bilanciamento dei
+compiti</strong> da assegnare.<br><br></p>
+<h4 id="stereotipi-di-classi">stereotipi di classi</h4>
+classificazione delle classi secondo i seguenti gruppi:<br>
+<ul>
+<li>
+classi entità
+</li>
+<li>
+classi di confine
+</li>
+<li>
+classi di controllo
+</li>
+</ul>
+<p>dividendo il sistema in tre componenti differenti:<br> dominio,
+vista, controllo.<br><br></p>
+<h5 id="classi-entità">Classi Entità</h5>
+<p>modella sia entità astratte (volo, esame,ecc.) sia entità concrete
+(cliente, ordine, ecc.) necessarie per eseguire compiti interni al
+sistema.<br><br></p>
+<p>• indipendenti dal contesto: non sono sensibili alle modalità con cui
+il contesto comunica con il sistema<br> • indipendenti
+dall’applicazione: possono essere riusate in differenti applicazioni,
+che si basano sullo stesso dominio<br><br></p>
+<p>Un esempio di classe entità indipendente dal contesto potrebbe essere
+una classe “Cliente” che modella i dati di un cliente come nome,
+indirizzo, numero di telefono e indirizzo e-mail. Questa classe non
+dipende dal modo in cui il sistema comunica con il cliente, ad esempio
+se tramite un’interfaccia web o un’app mobile.<br><br></p>
+<p>Un esempio di classe entità indipendente dall’applicazione potrebbe
+essere una classe “Ordine” che modella i dati di un ordine, come
+l’elenco degli articoli ordinati, il prezzo totale e lo stato
+dell’ordine. Questa classe può essere utilizzata in diverse
+applicazioni, ad esempio un sistema di gestione degli ordini per un
+negozio online e un sistema di gestione degli ordini per un ristorante.
+In entrambi i casi, l’ordine è un’entità astratta che può essere
+modellata utilizzando la stessa classe.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\CLassEntità.png"><br></p>
+<h5 id="classi-confine">Classi Confine</h5>
+<p>Classi di confine: gestiscono la comunicazione fra i dintorni del
+sistema e l’interno del sistema<br> • risultano quindi dipendenti dal
+contesto applicativo<br> • Esempio: si rende necessaria un’altra classe
+denominata AddACourseOffering che si occupi dell’inserimento di una
+nuova istanza di CourseOffering da parte
+dell’attoreProfessor<br><br></p>
+<p>Un esempio chiaro di classe di confine potrebbe essere una classe
+“InterfacciaUtente” che gestisce la comunicazione tra l’utente e il
+sistema, ad esempio la ricezione dei input dell’utente e la
+visualizzazione dei risultati.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\CLassConf.png"></p>
+<h5 id="classi-di-controllo">Classi di controllo</h5>
+<p>Classi di controllo: coordinano gli eventi necessari a supportare la
+dinamica prevista in uno o più scenari di utilizzo del sistema
+software<br> • sono tipicamente dipendenti dall’applicazione<br> •
+Esempio: occorre una classe di controllo per gestire il flusso degli
+eventi: ProfessorCourseManager <br><br></p>
+<p>Un esempio di classe di controllo potrebbe essere una classe
+“GestoreOrdini” che controlla il flusso di un ordine, ad esempio
+ricevendo una richiesta di ordine, verificando la disponibilità degli
+articoli e aggiornando lo stato dell’ordine.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\CLassCont.png"></p>
+<h5 id="la-relazione-instance-of">La relazione instance-of</h5>
+<p>La relazione “instance of” in UML (Unified Modeling Language) indica
+che un oggetto appartiene a una determinata classe o tipo (istanza di
+classe). Questa relazione viene rappresentata come una freccia che punta
+dall’oggetto alla classe a cui appartiene, con una bandierina sulla
+punta della freccia. La relazione “instance of” mostra la gerarchia di
+classi e oggetti all’interno di un sistema e la relazione di
+tipo-istanza tra di essi.
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\relazioneInstanceof.png"></p>
+<h4 id="ereditarietà">Ereditarietà</h4>
+<p>una classe è considerata come un repertorio di conoscenze, a partire
+dal quale è possibile definire altre classi più specifiche(che app.
+completano la definizione).<br> Quindi possiamo definire sottoclasse
+come una specializzazione della descrizione di una classe madre o detta
+anche superclasse. da cui essa mutua attributi e metodi.<br> a livello
+fisico le duplicazioni sono evitate.<br></p>
+<h5 id="ereditarietà-per-estensione">Ereditarietà per estensione</h5>
+<p>Estensione -&gt; introduzione di caratteristiche non presenti nella
+superclasse.<br> Visibilità -&gt; le caratteristiche ereditate non sono
+modificate</p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\EreditarietàFExt.png"><br></p>
+<p>in questo esempio gli oggetti di rettangolo andranno ad ereditare
+color, move(), display();</p>
+<p>quindi ciò permette di sviluppare codice estendibile.<br></p>
+<h5 id="ereditarietà-per-variazione-funzionale">Ereditarietà per
+variazione funzionale</h5>
+<p><strong>Variazione funzione</strong>:<br> va essenzialmente a
+ridefinire alcune caratteristiche della superclasse quando quelle
+ereditate si rivelano inadeguate per l’insieme di oggetti descritti
+dalla sottoclasse.<br> <strong>Ovverriding</strong>: riguarda solo
+l’implementazione e non la segnatura (nome e parametri), Ovverriding
+&lt;-&gt; ridefinizione di una o più caratteristiche.<br> -&gt; ogni
+richiesta del metodo ridefinito da parte di un nuovo ogetto, farà
+riferimento alla nuova implementazione fornita dalla
+sottoclasse.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\exVarafunz.png"><br></p>
+<p>nell’esempio sopra indicato l’oggetto che eredita contoCorrento
+ovvero: <strong>“ContoCorrenteConFido”</strong> ridefinisce quello della
+superclasse per controllare il prelievo non vada oltre il fido concesso.
+Quindi basta andare (in UML) a riscrivere la stessa funzione
+nell’oggetto che l’eredita per andare ad indicare che viene
+ovveriddata.<br><br></p>
+<p>siccome l’ovverriding va a ridefinire, se facciamo una modifica al
+metodo x dalla classe originale la classe che lo eredita non subirà le
+modifiche.<br> anche per questi molti esperti ne sconsigliano
+l’uso<br><br></p>
+<p>bisogna mitigare il problema, le sottoclassi possibili di
+ContoCorrente, incrementano in OR logico le condizioni di prelevabilità
+previste per un generico conto corrente andando a ovviare il problema
+della effettiva sovrascrizione del metodo totale, utilizzando quindi
+prima le condizione di controllo della superclasse, con super(); e
+andando successivamente a leggere le condizioni successivamente
+implementate nella ridefinizione.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\exVarafunzF.png"><br></p>
+<h5 id="ereditarietà-per-restrizione">Ereditarietà per restrizione</h5>
+<p>quando una sottoclasse soddisfa determinati vincoli che non sono
+necessariamente soddisfatti da instanze della superclasse.<br><br></p>
+<p>ex. in matematica: <strong>il quadrato</strong><br> è un particolare
+caso di rettangolo nel quale i due lati hanno la medesima lunghezza.<br>
+-&gt; <strong>Vincolo</strong> solo per la sottoclasse.<br><br></p>
+<p>ex:<br> Il dato astratto Layout: rappresenta una astrazione della
+impaginazione di un documento di una singola pagina. permette di
+rappresentare blocchi e di rappresentare una impaginazione.<br> se
+abbiamo bisogno di un layout più ristretto andiamo a ereditare la classe
+layout creando una nuova classe “layout_ristretto” che appunto eredita
+layout, modficano alcuni metodi o attributi.<br><br></p>
+<h4 id="principio-di-sostituibilità">Principio di Sostituibilità</h4>
+<p>in parole povere, possiamo descrivere il principio di sostituibilità,
+come il principio che ci permette di assegnare/utilizzare una
+sottoclasse della classe parente.<br> facendo un esempio:<br> Se una
+parte del codice utilizza un’istanza di “Animale” per emettere un suono,
+allora l’applicazione dovrebbe essere in grado di utilizzare sia
+un’istanza di “Gatto” che un’istanza di “Cane” senza conoscere la
+differenza, a patto che entrambe implementino correttamente il metodo
+“emettiSuono()”.<br><br></p>
+<p>ed è compatibile con la 3 ereditarietà (ovvero per estenzione,
+variazione funzionale e restrizione) in quanto comunque le sottoclassi
+preservano la visibilità degli attributi e dei metodi garantendo che gli
+oggetti della sottoclasse offrano quanto meno gli stessi servizi della
+madre.<br><br></p>
+<h4 id="ritorno-alle-ereditarietà">Ritorno alle Ereditarietà</h4>
+<h5 id="ereditarietà-e-relazione-is-a">Ereditarietà e relazione “is
+a”</h5>
+<p>nelle varie eredità che abbiamo visto precendentemente la relazione
+di ereditarietà fra classi corrisponde a una relazione di
+generalizzazione (“is_a”).<br> questo perchè ogni istanza di una classe
+derivata da una base va considerata come un instanza della classe
+base.<br><br></p>
+<h5
+id="ereditarietà-di-implementazione-implementation-inheritance">Ereditarietà
+di implementazione (implementation inheritance)</h5>
+<p>è essenzialmente la capacità di una sottoclasse di ereditare
+l’implementazione di un metodo o di una proprietà di una classe
+padre.<br> Andando a significare che la sottoclasse può utilizzare il
+codice esistente nella classe padre senza doverlo riscrivere,
+risparmiando tempo e aumentando la coerenza.<br><br></p>
+<p>Esempio:<br> Supponiamo di avere le seguenti classi in un
+programma:<br></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vettore <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span><span class="op">[]</span> vettore<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> dimensione<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">Vettore</span><span class="op">(</span><span class="dt">int</span> dimensione<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">dimensione</span> <span class="op">=</span> dimensione<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">vettore</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>dimensione<span class="op">];</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getElemento</span><span class="op">(</span><span class="dt">int</span> index<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vettore<span class="op">[</span>index<span class="op">];</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setElemento</span><span class="op">(</span><span class="dt">int</span> index<span class="op">,</span> <span class="dt">int</span> valore<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    vettore<span class="op">[</span>index<span class="op">]</span> <span class="op">=</span> valore<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pila <span class="kw">extends</span> Vettore <span class="op">{</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> top<span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">Pila</span><span class="op">(</span><span class="dt">int</span> dimensione<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">(</span>dimensione<span class="op">);</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">top</span> <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">push</span><span class="op">(</span><span class="dt">int</span> valore<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    top<span class="op">++;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">setElemento</span><span class="op">(</span>top<span class="op">,</span> valore<span class="op">);</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">pop</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> valore <span class="op">=</span> <span class="fu">getElemento</span><span class="op">(</span>top<span class="op">);</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    top<span class="op">--;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> valore<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">top</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">getElemento</span><span class="op">(</span>top<span class="op">);</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>In questo esempio, la classe “Pila” estende la classe “Vettore”. Ciò
+significa che la classe “Pila” eredita tutti i membri della classe
+“Vettore”, tra cui il costruttore, i metodi getElemento e setElemento.
+La classe “Pila” definisce anche i suoi metodi push, pop e top, che
+implementano la funzionalità di una pila.<br><br></p>
+<p>Supponiamo di creare un’istanza della classe “Pila” come
+segue:<br></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Pila pila <span class="op">=</span> <span class="kw">new</span> <span class="fu">Pila</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span></span></code></pre></div>
+<p>In questo caso, la classe “Pila” sta utilizzando la realizzazione
+fornita dalla classe “Vettore” per rappresentare un vettore di
+dimensione 10. Inoltre, la classe “Pila” sta utilizzando i metodi
+setElemento e getElemento della classe “Vettore” per implementare i suoi
+metodi push, pop e top.<br></p>
+<p>L’ereditarietà qui è utilizzata per realizzare la classe “Pila” sulla
+base della classe “Vettore”, ma l’interfaccia della classe “Vettore” non
+viene influenzata. Ad esempio, gli utenti che utilizzano la classe
+“Vettore” non vedranno i metodi push, pop e top, poiché questi sono
+specifici della classe “Pila”.<br> Quindi comporta modifiche alla
+visibilità delle caratteristiche ereditate.<br><br> di seguito la
+rappresentazione in uml:<br>
+<img title="erd. implementazione in uml" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\EreditarietàImpl.png"></p>
+<p>non compatibile con il principio di sostituibilità, in quanto
+comporta modifiche alla visibilità delle caratteristiche
+ereditate.<br></p>
+<p>secondo alcuni dovrebbe essere bandita, tuttavia bertrand meyer
+sostiene che questa forma di ereditarietà, insieme a moltre altre
+incompatibili, sono indispensabili e teoricamente
+leggittime.<br><br></p>
+<p>In alternativa, l’ereditarietà di interfaccia, in cui una classe
+eredita solo l’interfaccia di un’altra classe senza ereditare la sua
+implementazione, è un modo più sicuro per garantire il principio di
+sostituibilità e la riutilizzabilità del codice.<br></p>
+<p>Ovviamente è possibile combinare varie tipi ereditarietà nella
+modellazione delle classi<br></p>
+<h4 id="proprietà-della-relazione-di-generalizzazione">Proprietà della
+relazione di generalizzazione</h4>
+<p>La relazione di generalizzazione in programmazione orientata agli
+oggetti (OOP) definisce il rapporto di ereditarietà tra le classi, in
+cui una classe (figlia o sottoclasse) eredita le proprietà e
+comportamenti di un’altra classe (genitore o superclasse).<br></p>
+<p>Le proprietà della relazione di generalizzazione sono:<br><br></p>
+<p>È un grafo orientato e aciclico (DAG): la relazione di ereditarietà è
+rappresentata graficamente come un grafo orientato in cui le frecce
+puntano dalla classe figlia alla classe genitore. La relazione non deve
+avere cicli, ovvero una classe non deve ereditare da se stessa.<br></p>
+<p>È transitiva: se una classe B eredita da una classe A e una classe C
+eredita da B, allora C erediterà anche da A.<br></p>
+<p>È antisimmetrica: se una classe B eredita da una classe A, allora A
+non può ereditare da B.<br></p>
+<p>Dalla classe C, seguendo la direzione che porta al genitore, si
+possono trovare tutte le classi antenate (ancestor), chiamate anche
+superclassi di C.<br></p>
+<p>Seguendo la direzione opposta si possono trovare tutte le classi
+discendenti (descendant) di C.<br></p>
+<p><img title="erd. implementazione in uml" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\grafoEr.png"><br></p>
+<p>ricordare che una classe foglia è una classe che non ha ulteriori
+classi che ereditano da essa.<br></p>
+<h3 id="ereditarietà-multipla">Ereditarietà multipla</h3>
+<p>Una classe può avere più <strong>superclassi</strong>.<br>
+<img title="erd. implementazione in uml" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\EreditarietàMltp.png"><br></p>
+<p>introducendo ciò si andà a notare come il grafo non sia più una
+catena ma bensì un <strong>grafo aciclico orientato</strong>.<br>
+L’<strong>ordine</strong> fra le classi in G(C) è parziale.<br><br> Che
+l’ordine delle classi in un grafo di ereditarietà è parziale significa
+che non esiste un ordine univoco per le classi nel grafo. In altre
+parole, non c’è un modo univoco per stabilire quale classe è superiore o
+inferiore rispetto alle altre.<br></p>
+<p>Il grafo di ereditarietà rappresenta la gerarchia di ereditarietà tra
+le classi e l’ordine parziale indica che non è possibile stabilire un
+ordine preciso per le classi all’interno del grafo. Questo rende
+complesso stabilire una relazione precisa tra le classi nella
+gerarchia.<br></p>
+<p>Nell’ereditarietà multipla, un metodo può essere ereditato da più
+classi. Il problema sorge quando due classi diverse contengono la stessa
+definizione di un metodo ereditato dalla classe principale.<br><br></p>
+<p>Per risolvere questo problema, si considera una qualsiasi
+linearizzazione del grafo di ereditarietà della classe principale (C1).
+Ad esempio, nel caso descritto, la linearizzazione potrebbe essere A → B
+→ C → D o A → C → B → D.<br><br></p>
+<p>In entrambi i casi, B precede D e il metodo m è ereditato da B. La
+definizione del metodo m in B è quella più specifica e maschera quella
+omonima in D. Questo significa che se si chiama il metodo m su
+un’istanza di A, verrà utilizzato il metodo m definito in B.<br><br></p>
+<p>In questo modo, la linearizzazione del grafo di ereditarietà fornisce
+un ordine preciso per le classi nella gerarchia di ereditarietà
+multipla, evitando eventuali conflitti nella definizione dei metodi
+ereditati.<br><br></p>
+<p>il metodo “m” viene ereditato da una classe C2 che si trova nella
+gerarchia delle classi G(C1), dove C1 è la classe di partenza. In caso
+di conflitti tra le diverse definizioni di m, possono essere utilizzati
+criteri euristici come la molteplicità dell’ereditarietà e la
+modularità, che tuttavia non sono universalmente accettati.
+L’ereditarietà multipla è spesso sconsigliata. In caso di conflitto tra
+due linearizzazioni del grafo G(C1), non esiste un modo univoco per
+scegliere da quale classe ereditare il metodo m.<br><br></p>
+<p>Il problema in questo caso è che l’ereditarietà multipla può portare
+a comportamenti imprevisti o ambigui nell’applicazione del metodo m. Ciò
+può verificarsi quando diverse classi ereditano un metodo con lo stesso
+nome, ma con implementazioni diverse. Questo può rendere difficile
+comprendere e prevedere il comportamento del metodo, soprattutto in
+situazioni complesse con molte classi e molteplici livelli di
+ereditarietà. Per questo motivo, l’ereditarietà multipla viene spesso
+sconsigliata.<br></p>
+<h4 id="ereditarietà-visibilità-protetta">Ereditarietà: visibilità
+protetta</h4>
+<p>La relazione di ereditarietà introduce un ulteriore livello di
+visibilità: quella protetta (protected)<br> • Una caratteristica
+(attributo o metodo) può essere vista solo tutte le classi del package e
+dalle classi discendenti (anche in altri package)<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\ExErProtetta.png"><br><br></p>
+<h3 id="classe-astratta">Classe Astratta</h3>
+<p>Una classe astratta è una classe di base in programmazione orientata
+agli oggetti che viene utilizzata per definire una gerarchia di classi.
+Non può essere istanziata direttamente, ma solo estesa da altre classi.
+Una classe astratta definisce i metodi che dovranno essere implementati
+dalle classi figlie, ma non fornisce una implementazione concreta per
+questi metodi. Ciò significa che le classi che ereditano da una classe
+astratta sono obbligate a fornire un’implementazione concreta per i
+metodi astratti della classe genitore. Le classi astratte sono
+utilizzate per fornire una struttura comune per un insieme di classi
+simili e per garantire che tutte le classi figlie implementino i metodi
+richiesti.<br></p>
+<p>Notazione in UML:<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\ClassiAstratteUML.png"><br><br></p>
+<p>servono principalmente per “mettere assieme” proprietà comuni fra
+classi simili, organizzandole gerarchicamente.<br> Possiamo dare una
+<strong>radice comune</strong> a un insieme di classi che condividono le
+stesse proprietà per sfruttarle. (polimorfismo di inclusione (principio
+di sostituibilità), binding dinamico).<br><br></p>
+<h3 id="classi-finali">Classi finali</h3>
+<p>Le classi finali in programmazione orientata agli oggetti sono classi
+che non possono essere ereditate o estese da altre classi. Questo
+significa che non è possibile creare una nuova classe che estenda una
+classe finale.</p>
+<p>Le classi finali sono spesso utilizzate per garantire che la logica
+all’interno della classe non venga modificata o sovrascritta
+accidentalmente. In questo modo, il comportamento della classe rimane
+coerente e prevedibile.</p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\ClassiFogliaGerarchia.png"><br><br></p>
+<h3 id="interfaccie">Interfaccie</h3>
+<p>Le interfacce in programmazione orientata agli oggetti sono uno
+strumento per definire un contratto, ovvero un insieme di regole che
+devono essere rispettate da una classe che vuole implementare
+l’interfaccia.<br><br></p>
+<p>Le interfacce possono contenere solo firme di metodi, ovvero la
+dichiarazione del nome, dei parametri e del tipo di ritorno dei metodi
+senza alcuna implementazione. Questo permette di definire un
+comportamento standard per un certo tipo di oggetti, senza specificare
+come questi debbano implementare tale comportamento.<br><br></p>
+<p>Le classi che implementano un’interfaccia sono obbligate a definire
+tutti i metodi dell’interfaccia, e possono essere utilizzate in modo
+intercambiabile con altre classi che implementano la stessa interfaccia,
+indipendentemente dalla loro implementazione specifica.<br><br></p>
+<h3 id="relazione-di-realizzazione">Relazione di realizzazione</h3>
+<p>La relazione di realizzazione (nota anche come “implementazione”) in
+programmazione orientata agli oggetti è una relazione tra un’interfaccia
+e una classe che la implementa.<br><br></p>
+<p>In questa relazione, la classe è obbligata a definire tutti i metodi
+dichiarati nell’interfaccia, fornendo così una implementazione concreta
+del comportamento definito dall’interfaccia. Ciò significa che la classe
+implementa tutte le regole definite nell’interfaccia e può essere
+utilizzata ovunque sia richiesta un’implementazione
+dell’interfaccia.<br><br></p>
+<p>La relazione di realizzazione è utile per creare un’astrazione tra
+l’interfaccia e le sue implementazioni concrete. Ciò significa che il
+codice che utilizza un’interfaccia può essere scritto in modo
+indipendente dalle implementazioni concrete, e che queste possono essere
+sostituite o modificate senza influire sul codice che utilizza
+l’interfaccia.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\relazioneDiRea.png"><br><br></p>
+<p>ex:<br> l’interfaccia java.lang.Comparable specifica una sola
+operazione<br></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">compareTo</span><span class="op">(</span><span class="bu">Object</span> o<span class="op">)</span></span></code></pre></div>
+<p>• Input: un oggetto generico Object come argomento<br> • Output: un
+valore negativo se l’argomento è più piccolo dell’oggetto corrente, zero
+se è uguale e un valore positivo se è maggiore<br></p>
+<p>una qualunque classe che lo implementa deve fornire una
+implementazione per compareTo.<br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\relazioneDiReaUML.png"><br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\InterfaceErInterface.png"><br><br></p>
+<p>^<br> In java ciò non è permesso sulle classi ma la permettono sulle
+interfacce.</p>
+<h3 id="realizzazione-di-più-interfaccie">Realizzazione di più
+interfaccie</h3>
+<p>è permesso a una classe di relaizzare più interfaccie, andando ad
+ampliare il range di operazioni possbili dai contratti.<br><br></p>
+<p>ex:<br>
+<img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\ClassImplMultinterface.png"><br><br></p>
+<h4 id="realizzazioni-multiple-di-una-interfaccia">Realizzazioni
+multiple di una interfaccia</h4>
+<p>Più di esse (classi) possono implementare la stessa interfaccia</p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\Classtointerface.png"><br><br></p>
+<h3 id="metaclassi">metaclassi</h3>
+<p>in alcuni modelli object oriented le classi a loro volta sono degli
+oggetti ottenuti per istanziazione di una meta classe<br> Una metaclasse
+è una classe che definisce la classe stessa. In altre parole, una
+metaclasse è una classe che fornisce un modello per la creazione di
+altre classi. In alcuni linguaggi di programmazione, come Python, ogni
+classe ha una metaclasse, che viene utilizzata per definire le proprietà
+e i comportamenti delle classi create a partire da quella
+metaclasse.<br><br></p>
+<p>La metaclasse può essere utilizzata per modificare la creazione di
+classi, ad esempio per modificare le proprietà di una classe o per
+fornire funzionalità specifiche a una classe. In questo modo, le
+metaclassi possono essere utilizzate per creare architetture software
+più flessibili e modificabili, e per creare classi personalizzate con
+comportamenti specifici.<br> <strong>Metaclassi</strong>: classi che
+definiscono la struttura di altre classi.<br><br></p>
+<p>le metaclassi sono utili per flessibilità, ovvero se si vuole
+modificare dei valori predefiniti che essa possiede ed applicarla su
+tutte le classi di cui ne fanno parte:<br><br></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GeometricObjectMeta(<span class="bu">type</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(cls, name, bases, attrs):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        attrs[<span class="st">&#39;sides&#39;</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        attrs[<span class="st">&#39;right_angles&#39;</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GeometricObject(metaclass<span class="op">=</span>GeometricObjectMeta):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Triangle(GeometricObject):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sides <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right_angles <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Rectangle(GeometricObject):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sides <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right_angles <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> t <span class="op">=</span> Triangle()</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> t.sides</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> t.right_angles</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> r <span class="op">=</span> Rectangle()</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> r.sides</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> r.right_angles</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span></code></pre></div>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\metaclassi.png"><br><br></p>
+<p>in <strong>java</strong> il modello è differente:<br></p>
+<p>• Tutte le classi ereditano da Object.<br> • Object dispone di un
+metodo getClass() che permette di restituire per ogni oggetto una
+istanza della classe Class<br> • Class descrive la classe di appartenza
+dell’oggetto<br> • Class è detta metaclasse, ma SOLO per analogia con
+Smalltalk<br> • Tuttavia non è una metaclasse in senso stretto<br> • I
+suoi oggetti non sono classi, ma descrivono delle class<br><br></p>
+<p>questo modello supporta il meccanismo di riflessione. (permette a un
+oggetto di stabilire al run time la sua classe di appartenenza.<br><br>
+la stessa classe class include metodi per scoprire:<br> il nome;<br> la
+superclasse;<br> i metodi;<br> gli attributi;<br> quindi ci sono anche
+dei oggetti per rappresentare i metodi e i campi. class, method e field
+sono sottoclassi di object.<br><br></p>
+<h3 id="aggregrazione">Aggregrazione</h3>
+<p>l’Ereditarietà non è sempre adeguata a costruire oggetti.<br></p>
+<p>non si può utilizzare invece l’ereditarietà multipla nel seguente
+esempio, in quanto con l’ereditarietà multipla l’oggetto per esempio
+automobile potrebbe definire due oggetti per fusione, mentre con
+l’aggregazione è possibile raggruppare tutti gli oggetti per esempio di
+un automobile.<br><br></p>
+<p>L’aggregazione è una relazione di composizione tra oggetti in un
+sistema orientato agli oggetti. La composizione rappresenta
+un’associazione tra oggetti in cui un oggetto è parte integrante di un
+altro oggetto.<br><br></p>
+<p>Ad esempio, in un sistema che modella un’auto, potremmo avere una
+classe “Auto” e una classe “Ruota”. Un’auto può essere composta da
+quattro ruote, e ogni ruota fa parte integrante dell’auto. In questo
+caso, abbiamo una relazione di aggregazione tra la classe “Auto” e la
+classe “Ruota”.<br><br></p>
+<p>L’aggregazione può essere rappresentata graficamente come un
+romboidale vuoto che punta verso l’oggetto più grande, ad esempio
+l’auto. Questo simboleggia che l’oggetto aggregato (in questo caso la
+ruota) è parte integrante dell’oggetto più grande (l’auto), ma esiste
+anche come oggetto indipendente.<br><br></p>
+<p>Nell’implementazione di un sistema orientato agli oggetti,
+l’aggregazione può essere implementata tramite una relazione di
+contenimento tra gli oggetti, in cui un oggetto contiene un’istanza di
+un altro oggetto. Questa relazione può essere implementata come una
+proprietà di una classe o come una relazione di tipo “ha un” tra due
+classi.<br><br></p>
+<p><strong>Aggregazione di oggetti</strong>: rappresentata con variabili
+di istanza che puntano a oggetti di altre classi<br><br> infatti si era
+detto che:<br> “lo stato di un oggetto può anche contenere il
+riferimento ad unaltro oggetto. Si dice che un oggetto punta ad un
+altro. Il puntamento è asimmetrico.”<br></p>
+<p>la relazione di aggregrazione è di tipo “<strong>has_a</strong>”
+ovvero che una classe A è in relazione di aggregrazione con una classe B
+solo se, alcune instanze di B contribuiscono a formare parte delle
+instanze di A.<br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\AggrUML.png"><br><br></p>
+i casi in cui si vuole usarlo sono i seguenti:<br>
+<ol>
+<li>
+<b>Contenimento fisico</b>: la pagina di un libro.
+</li>
+<li>
+<b>Appartenenza</b>: il giocatore di una squadra di calcio
+</li>
+<li>
+<b>Composizione funzionale</b>: le ruote di un’automobile.
+</li>
+</ol>
+<p>l’aggregazione non implica una dipendenza esistenziale -&gt; un
+automobile può essere distrutta ma alcune sue parti possono essere
+riutilizzate.<br><br></p>
+<p>le aggregazioni sono associazioni deboli (le parti possono esistere
+senza l’intero, la messa assieme) mentre la composizione è una
+associazione forte fra parti e intero<br> comporta una dipendenza
+esistenziale: le parti non esistono senza il contenitore<br> -&gt;
+creazione e distruzione delle parti<br> -&gt; i componenti non siano
+parti di altri oggetti<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLCompo.png"><br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\CompPunto.png"><br><br></p>
+<h3 id="package---meccanismo-per-raggr.-classi">Package -&gt; meccanismo
+per raggr. classi</h3>
+<p>in quanto con un sistema di alta complessità, si avrà un alto numero
+di classi, con i package possiamo raggurappare/organizzare tutte le
+<strong>classi in gruppi</strong>.<br> Questo comporta l’accesso alle
+classi, e l’individuazione di esse più facile.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\UMLpackage.png"><br><br></p>
+<p>un package definisce un namespace (spazio di identificatori) per i
+suoi elementi.<br> nome package :: nome classe<br><br></p>
+<p>Elementi della stessa specie all’interno di un package devono avere
+<em>necessariamente nomi differenti</em> ma con due elementi di tipo
+differente è possibile avere nomi uguali.<br><br></p>
+<p>i package possono essere innestati senza alcun limite di
+profondità;<br> (usare con moderazione)<br> ha accesso a tutti gli
+elementi contenuti direttamente nei package esterni (a qualunque livello
+di annidamento)<br> senza necessità di importazione<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\RelazioneImport.png"><br><br></p>
+<p>i package possono ereditare da altri package usando la relazione di
+generalizzazione, andando a ereditare gli elementi public e protected
+del package in questione.<br><br></p>
+<h3 id="classi-interne">Classi interne</h3>
+<p>In UML (Unified Modeling Language), una classe interna è una classe
+che è definita all’interno di un’altra classe. Questo è utile per creare
+relazioni più strettamente associate tra le classi. Una classe interna
+può accedere a tutte le variabili e i metodi della classe esterna, e può
+essere utilizzata solo all’interno di quest’ultima. In UML, le classi
+interne sono rappresentate come classi contenute all’interno di una
+classe più grande.</p>
+<p>UML non ha una notazione standard per le classi interne, tuttavia
+allen holub suggerisce la seguente notazione:<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\outerinnerclass.png"><br><br></p>
+<h3 id="polimorfismo">Polimorfismo</h3>
+<p>il polimorfismo consente di definire un comportamento comune per
+diverse classi o tipi di dati, rendendo il codice più flessibile e
+mantenibile.<br><br></p>
+<p>Universale (parametrico o di inclusione)<br> • opera su un numero
+potenzialmente illimitato di tipi<br> • morfismi generati
+automaticamente<br> • base comune a tutti i diversi morfismi che può
+assumere l’entità polimorfa<br><br> Ad hoc (overloading o
+coercizione)<br> • opera su un numero finito di tipi, spesso
+pochissimi<br> • morfismi generati in modo manuale o semi-manuale<br> •
+nessuna base comune a tutti i morfismi<br> • al di là delle intenzioni
+del progettista: è un caso, non la regola<br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\Polimorfismo.png"><br><br></p>
+<h4 id="coercizione">Coercizione</h4>
+<p>Meccanismo di conversione implicita applicato dal compliatore per
+usare oggetti di tipo t1 con oggetti di tipo t2.<br></p>
+<p>ex:<br> 3.14 + 5<br> • + è definito per valori reali<br> • ma lo si
+può usare su un insieme di tipi più grande di quello per il quale è
+stato definito<br> • Senza coercizione -&gt; errore di tipo<br></p>
+<p>in java -&gt; autoboxing di un int in integer e viceversa (int è un
+dato primitivo mentre integer è una classe).<br><br></p>
+<p>è la forma di polimorfismo più semplice.<br> opera a un livello
+semantico, cioè cambiano la rappresentazione del dato.<br><br></p>
+<h4 id="overloading">Overloading</h4>
+<p>Con l’overloading dei metodi, più metodi possono avere lo stesso nome
+con parametri diversi:<br><br></p>
+<p>Esempio:<br> int mioMetodo(int x)<br> float mioMetodo(float x)<br>
+double mioMetodo(double x, double y)<br><br></p>
+<p>la disambiguazione dell’identificatore del metodo avviene basandosi
+sul tipo degli argomenti o sulla classe dell oggetto a cui si richiede
+il servizio.<br></p>
+<p>avviene anche una pre-compilazione del programma;<br> andando a
+eliminare l’overloading dando nomi differenti a metodi
+differenti.<br><br></p>
+<p>L’overloading è presente nella maggior parte dei linguaggio (anche
+imperativi)<br> -&gt; ex. operatori aritmetici: “+” “-” ecc. applicabili
+a più di un tipo.<br><br></p>
+<p>ex. “+” in pascal -&gt; a 2 interi fa la add fra floating point,
+mentre a 2 numeri reali genera una istruzione add fra floating
+point.<br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\OverloadingFunc.png"><br><br></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\OverloadingClass.png"><br><br></p>
+<h4 id="parametrico">Parametrico</h4>
+<p>essenzialmente una funzione polimorfa, ovvero che determina il tipo
+dell’argomento per ciascuna applicazione della funzione, viene anche
+chiamata funzione generica in c++ ecc. template.<br><br></p>
+<p>essa può lavorare su argomenti di molti tipi, avendo lo stesso
+comportamento indifferentemente dall’argomento.<br> ex.<br>
+/<em>funzione che calcola la lunghezza di una lista qualunque</em>/<br>
+length(x)= if (x=nil) then 0 else (1+length(tail(x)))<br><br></p>
+<h4 id="di-inclusione">di inclusione</h4>
+<p>Il polimorfismo di inclusione, chiamato anche sottotipizzazione Il
+polimorfismo di inclusione è la capacità di utilizzare classi derivate
+attraverso puntatori e riferimenti alla classe base. È noto anche come
+polimorfismo a tempo di esecuzione, perché l’indirizzo della funzione
+non viene individuato dal compilatore a tempo di compilazione, ma il
+puntatore giusto della tabella virtuale viene dereferenziato per
+invocare la funzione a tempo di esecuzione. Il concetto di funzione
+virtuale, noto anche come collegamento dinamico, viene utilizzato per
+ottenere il polimorfismo di inclusione. L’uso della funzione virtuale
+consente di selezionare la funzione da invocare in base al tipo di
+oggetto per cui viene chiamata. Ad esempio: Per implementare questa
+tecnica di polimorfismo, prendiamo in considerazione diversi file come i
+file .jpg, .gif, .png. Tutti questi file rientrano nella categoria dei
+file immagine.<br><br></p>
+<p>L’utilizzo più interessante: le invocazioni dei metodi su oggetti di
+classi diverse (ma gerarchicamente correlate):<br> è possibile invocare
+il medesimo metodo su oggetti di classi diverse, e ottenere un
+comportamento specifico per ogni classe, anche se la definizione del
+metodo è unica.<br> ciò dipende dal tipo di legame statico/dinamico fra
+identificatore di funzione e relativa realizzazione.<br><br></p>
+<p>Con il legame dinamico, la decisione sul metodo da invocare viene
+presa in base alla classe effettiva dell’oggetto durante l’esecuzione
+del programma, permettendo una maggiore flessibilità e adattabilità a
+situazioni in cui la classe dell’oggetto può cambiare durante
+l’esecuzione del codice.<br><br></p>
+<p>Con il legame statico, la decisione sul metodo da invocare viene
+presa durante la compilazione del codice, in base alla classe
+dell’oggetto e alla definizione del metodo. Questo può rendere il codice
+più efficiente, ma limita la flessibilità nelle situazioni in cui la
+classe dell’oggetto può cambiare durante l’esecuzione del
+codice.<br><br></p>
+Programmazione orientata a oggetti: il legame fra nome di funzione e sua
+realizzazione può essere determinato al run-time<br>
+<pre>
+Si consideri il seguente esempio (in C++):
+class A { 
+  public void f(){cout << ’A’} 
+  … 
+}
+class B : public A { 
+  public void f(){cout << ’B’} // overriding 
+  … 
+}
+class Tester{
+  public void someF(A a){ a.f()..}
+  …
+}
+  
+obj1 = new B();
+obj2 = new Tester();
+obj2.someF(obk1);
+</pre>
+<p>In C++, l’overriding consente di definire un metodo con lo stesso
+nome in una classe derivata che eredita da una classe base. Quando si
+invoca il metodo su un’istanza della classe derivata, viene eseguito il
+codice del metodo nella classe derivata, anziché quello nella classe
+base. Questo perché il comportamento del metodo viene risolto in modo
+dinamico al run-time, basato sul tipo effettivo dell’oggetto, non sul
+tipo dichiarato del parametro o della variabile. In questo caso,
+l’oggetto “obj1” è un’istanza della classe B, quindi la funzione “f” di
+B viene eseguita durante la chiamata “someF”.<br> mentre con il binding
+statico avremmo avuto il risultato della funzione f di A.<br><br></p>
+<p>C++ è un esempio di linguaggio dove la tipizzazione è statica, ma il
+legame può essere dinamico (statically-typed dynamic binding)<br> •
+N.B.: Il legame di riferisce a nome di funzione – sua realizzazione<br>
+• Lo stesso dicasi per il Java. Ma in questo linguaggio, il legame
+dinamico è la regola, non l’eccezione<br> • solo nei metodi final/static
+il legame nome di funzione – sua realizzazione diventa statico<br></p>
+<h3 id="qualità-del-software">Qualità del software</h3>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\Q1.png"></p>
+<p><img title="trasport Layer inAction" alt="Alt text" src="C:\Users\Dario\NvimProject\Uni\Programmazione2\Q2.png"><br><br></p>
+</body>
+</html>
